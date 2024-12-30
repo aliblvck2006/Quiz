@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        #question { font-size: 20px; margin-bottom: 20px; }
+        .button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        #result { margin-top: 20px; font-size: 18px; font-weight: bold; }
+        #final-result { margin-top: 20px; font-size: 20px; font-weight: bold; color: blue; }
+    </style>
+</head>
+<body>
+    <div id="question"></div>
+    <button class="button" onclick="checkAnswer('Richtig')">Richtig</button>
+    <button class="button" onclick="checkAnswer('Falsch')">Falsch</button>
+    <div id="result"></div>
+    <div id="final-result"></div>
+
+    <script>
+        const questions = [
+            { text: "Zuerst dachte sie, ihr Telefon sei gestohlen worden.", answer: "Richtig" },
+            { text: "Es gibt ein Datum, diese Telefonnummer ist verfügbar.", answer: "Falsch" },
+            { text: "Sie aßen zusammen mit der Person zu Abend, die das Telefon gefunden hatte.", answer: "Falsch" },
+            { text: "Termin mit der Person im Hotel in der Zukunft.", answer: "Falsch" },
+            { text: "Der Verlust von Daten ist schlimm.", answer: "Richtig" },
+            { text: "Das Mobiltelefon wurde bei dem Sturz beschädigt oder ging kaputt.", answer: "Richtig" },
+            { text: "In Pauls Stadt werden jede Woche Fahrräder gestohlen Paul stellt sein Fahrrad nauftig am Bahnhof ab.", answer: "Richtig" },
+            { text: "Paul hatte sein Fahrrad am Morgen abgeschlossen.", answer: "Richtig" },
+            { text: "Der Angestellte konnte Paul helfen.", answer: "Richtig" },
+            { text: "Als Paul das Kabel durchtrennte, ging das Werkzeug kaputt.", answer: "Falsch" },
+            { text: "Paul wartete lange auf den Bus, um nach Hause zu fahren.", answer: "Falsch" },
+            { text: "Paul empfiehlt, sichere Schlösser zu kaufen.", answer: "Falsch" },
+            { text: "Steffis Kollegin fährt für zwei Wochen in den Urlaub.", answer: "Falsch" },
+            { text: "Die Kollegin wird Steffi fehlen.", answer: "Falsch" },
+            { text: "Bevor ihre Kollegin gekommen ist, hat Steffi mehr gearbeitet.", answer: "Richtig" },
+            { text: "Die Kollegin erinnert Steffi an ihre Mutter.", answer: "Richtig" },
+            { text: "Steffi hilft ihrer Kollegin bei Problem mit dem Computer.", answer: "Richtig" },
+            { text: "Steffis Kollegin erklärt gern mehrmals das Gleiche.", answer: "Falsch" },
+            { text: "Steffi anfangt von ihrer Kollegin, was im Büro los ist.", answer: "Richtig" },
+            { text: "Benjamin schickt die E-Mail vom Arbeitsplatz.", answer: "Richtig" },
+            { text: "Eva und Uschi haben beruflich in Japan zu tun.", answer: "Richtig" },
+            { text: "Benjamin in Japan von Anfang an gut zurechtgekommen.", answer: "Falsch" },
+            { text: "Japanisches Obst hat Benjamin gut geschmeckt.", answer: "Richtig" },
+            { text: "Eva und Uschi haben Benjamin um Tipps für Japan gebeten.", answer: "Falsch" },
+            { text: "Benjamins Mappe mit Reisetipps ist verloren gegangen.", answer: "Falsch" },
+            { text: "Benjamin möchte mit den Freundinnen japanisch essen gehen.", answer: "Falsch" },
+            { text: "Die Flughafenatmosphäre ist nicht auf lange Wartezeiten vorbereitet.", answer: "Falsch" },
+            { text: "Hat sie den Verlust sofort entdeckt?", answer: "Falsch" },
+            { text: "Hat die Mitarbeiterin ihr einen Grund für den Verlust KEINEN ERKLÄREN.", answer: "Falsch" },
+            { text: "Sie freute sich auf den Tag, an dem sie ihr Gepäck vom Flughafen holen würde.", answer: "Falsch" },
+            { text: "Die Dame hat danach zwei Tage Ruhe Sie kommen zurück.", answer: "Richtig" },
+            { text: "Maryam wird in Zukunft eine Versicherung abschließen.", answer: "Richtig" },
+            { text: "Sie hoffte auf besseres Wetter.", answer: "Falsch" },
+            { text: "Sie wollte die Treppe mitnehmen.", answer: "Falsch" },
+            { text: "Die Stimmung war zum Zeitpunkt des Transfers gut.", answer: "Richtig" },
+            { text: "Der Eigentümer verfügt über den entsprechenden Schlüssel.", answer: "Falsch" },
+            { text: "Das Abendessen gab es bei Nachbarn.", answer: "Falsch" },
+            { text: "Sie möchte ihren Balkon begrünen / sie mochte ihren balkon pflege begrügen.", answer: "Falsch" },
+            { text: "Katrin war in der letzten Zeit sehr beschäftigt.", answer: "Richtig" },
+            { text: "Katrins Professor hat den Auslandsaufenthalt möglich gemacht.", answer: "Richtig" },
+            { text: "Katrin unterrichtet während der gesamten Praktikumszeit.", answer: "Falsch" },
+            { text: "Einmal pro Monat organisiert die Schule ein Treffen für Lehrer und Schüler.", answer: "Falsch" },
+            { text: "Katrin ist mit dem Sportangebot zufrieden.", answer: "Falsch" },
+            { text: "Katrin konnte die Leiterin zu etwas Neuem überreden.", answer: "Richtig" },
+            { text: "Katrin würde gern in Bolivien studieren.", answer: "Falsch" },
+            { text: "Zuerst dachte sie, ihr Telefon sei gestohlen worden.", answer: "Richtig" },
+            { text: "Es gibt ein Datum, diese Telefonnummer ist verfügbar.", answer: "Falsch" },
+            { text: "Sie aßen zusammen mit der Person zu Abend, die das Telefon gefunden hatte.", answer: "Falsch" },
+            { text: "Termin mit der Person im Hotel in der Zukunft.", answer: "Falsch" },
+            { text: "Der Verlust von Daten ist schlimm.", answer: "Richtig" },
+            { text: "Das Mobiltelefon wurde bei dem Sturz beschädigt oder ging kaputt.", answer: "Richtig" },
+            { text: "Die Bekannte lebt alleine mit ihren Kindern.", answer: "Falsch" },
+            { text: "Katja und ihr Mann haben beim Transport eines Möbelstücks geholfen.", answer: "Falsch" },
+            { text: "Katja hat ihren Lieblingskuchen gebacken.", answer: "Falsch" },
+            { text: "Katja war stolz auf ihren Kuchen.", answer: "Richtig" },
+            { text: "Die Bekannte hat ihnen ein Mittagessen angeboten.", answer: "Falsch" },
+            { text: "Der Kuchen der Bekannten schmeckte gut.", answer: "Falsch" },
+            { text: "Katja ist von der Bekannten enttäuscht.", answer: "Richtig" },
+            { text: "Sebastian berichtet von einem Ausflug zu FÜB.", answer: "Richtig" },
+            { text: "Er bemerkte das schlechte Wetter zu Beginn der Wanderung.", answer: "Falsch" },
+            { text: "Das Gewitter begann mit Regen.", answer: "Falsch" },
+            { text: "Das Ziel von Sebastian lag in einem Tal.", answer: "Richtig" },
+            { text: "Sebastian wusste, dass Bäume bei Gewitter keinen Schutz bieten.", answer: "Richtig" },
+            { text: "So schnell er konnte, lief Sebastian bis ins Dorf.", answer: "Falsch" },
+            { text: "Sebastian rät sich vor einer Wanderung über das Wetter zu informieren.", answer: "Falsch" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+
+        const questionElement = document.getElementById("question");
+        const resultElement = document.getElementById("result");
+        const finalResultElement = document.getElementById("final-result");
+
+        function showQuestion() {
+            questionElement.textContent = questions[currentQuestionIndex].text;
+            resultElement.textContent = ""; // Natijani tozalash
+        }
+
+        function checkAnswer(userAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+
+            if (userAnswer === correctAnswer) {
+                correctCount++;
+                resultElement.textContent = "To'g'ri! 🎉";
+                resultElement.style.color = "green";
+            } else {
+                incorrectCount++;
+                resultElement.textContent = "Noto'g'ri. ❌";
+                resultElement.style.color = "red";
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                setTimeout(showQuestion, 1000); // Keyingi savolga o'tishni kutish
+            } else {
+                setTimeout(showFinalResult, 1000); // Savollar tugagandan keyin natijalarni chiqarish
+            }
+        }
+
+        function showFinalResult() {
+            finalResultElement.textContent = `To'g'ri javoblar: ${correctCount} | Noto'g'ri javoblar: ${incorrectCount}`;
+        }
+
+        // Dastlabki savolni ko'rsatish
+        showQuestion();
+    </script>
+</body>
+</html>
